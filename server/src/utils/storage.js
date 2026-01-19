@@ -7,24 +7,36 @@ class Storage {
   }
 
   createPoll(poll) {
+    
     this.polls.set(poll.id, poll);
     this.votes.set(poll.id, []);
-    this.voterHistory.set(pollId, new Set());
+    this.voterHistory.set(poll.id, new Set());
+    
     return poll;
   }
 
   getPoll(pollId) {
-    return this.polls.get(pollId);
+    const poll = this.polls.get(pollId);
+    if (!poll) {
+      return {}
+    } 
+
+    return poll
   }
 
   getAllPolls() {
-    return Array.from(this.poll.values());
+    const polls =  Array.from(this?.polls?.values());
+    if (polls.length === 0 ) {
+      return []
+    }
+    return polls
   }
 
   updatePoll(pollId, updates) {
     const poll = this.polls.get(pollId);
     if (!poll) return null;
     const updatedPoll = { ...poll, ...updates };
+    this.polls.set(pollId,updatedPoll);
     return updatedPoll;
   }
 
@@ -38,12 +50,13 @@ class Storage {
 
   addVote(pollId, vote) {
     const votes = this.votes.get(pollId) || [];
-    this.votes.push(vote);
+
+    votes.push(vote);
     this.votes.set(pollId, votes);
 
     const voters = this.voterHistory.get(pollId) || new Set();
     voters.add(vote.voterId);
-    this.voterHistory(pollId, voters);
+    this.voterHistory.set(pollId, voters);
   }
 
   getVotes(pollId) {
@@ -51,7 +64,7 @@ class Storage {
   }
 
   hasVoted(pollId, voterId) {
-    const voters = this.voterHistory.get(poolId);
+    const voters = this.voterHistory.get(pollId);
     return voters ? voters.has(voterId) : false;
   }
 
@@ -73,15 +86,21 @@ class Storage {
 
   getPollStates(pollId) {
     const poll = this.polls.get(pollId);
-    const votes = this.votes.get(poolId);
+    let votes = []
+    const res = this.votes.get(pollId);
+    if (res?.length === 0) {
+      votes = []
+    } else {
+      votes = res
+    }
 
     return {
       pollId,
-      totalVotes: votes.length,
+      totalVotes: votes?.length,
       uniqueVotes: this.voterHistory.get(pollId)?.size || 0,
-      options: poll.options.map((opt) => ({
+      options: poll?.options.map((opt) => ({
         ...opt,
-        votes: votes.filter((v) => v.optionId === opt.id).length,
+        votes: votes?.filter((v) => v?.optionId === opt?.id)?.length,
       })),
     };
   }

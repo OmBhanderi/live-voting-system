@@ -6,6 +6,7 @@ class VoteService {
   submitVote(pollId, optionId, req) {
 
     const poll = storage.getPoll(pollId);
+
     if (!poll) {
       throw new Error('Poll not found');
     }
@@ -38,12 +39,12 @@ class VoteService {
 
     return {
       vote,
-      results: storage.getPollStats(pollId)
+      results: storage.getPollStates(pollId)
     };
   }
 
   getVoteStats(pollId) {
-    return storage.getPollStats(pollId);
+    return storage.getPollStates(pollId);
   }
 
   hasUserVoted(pollId, req) {

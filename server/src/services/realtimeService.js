@@ -2,6 +2,10 @@ const storage = require('../utils/storage');
 const { SSE_HEARTBEAT_INTERVAL } = require('../config/constants');
 
 class RealtimeService {
+
+
+
+
   setupSSE(req, res, pollId) {
     // Set headers for SSE
     res.setHeader('Content-Type', 'text/event-stream');
@@ -10,7 +14,7 @@ class RealtimeService {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Send initial data
-    const stats = storage.getPollStats(pollId);
+    const stats = storage.getPollStates(pollId);
     if (stats) {
       this.sendEvent(res, 'initial', stats);
     }
@@ -56,6 +60,6 @@ class RealtimeService {
       this.broadcastUpdate(poll.id, data);
     });
   }
-}
+} 
 
 module.exports = new RealtimeService();

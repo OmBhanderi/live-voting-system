@@ -5,13 +5,14 @@ const { validatePollData } = require("../utils/helpers");
 class PollService {
   createPoll(data) {
     // Validate
-    const errors = validatePollData(data);
-    if (errors.length > 0) {
-      throw new Error(errors.join(", "));
-    }
+    // const errors = validatePollData(data);
+    // if (errors.length > 0) {
+    //   throw new Error(errors.join(", "));
+    // }
 
     // Create poll
     const poll = new Poll(data);
+  
     storage.createPoll(poll);
     return poll;
   }
@@ -26,6 +27,7 @@ class PollService {
 
   getAllPolls(activeOnly = false) {
     let polls = storage.getAllPolls();
+
 
     if (activeOnly) {
       polls = polls.filter((p) => p.isActive);
@@ -70,7 +72,7 @@ class PollService {
   }
 
   getPollResults(pollId) {
-    const stats = storage.getPollStats(pollId);
+    const stats = storage.getPollStates(pollId);
     if (!stats) {
       throw new Error("Poll not found");
     }
