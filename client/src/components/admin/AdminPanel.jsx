@@ -41,7 +41,7 @@ const AdminPanel = () => {
     if (filter === 'closed') return !poll.isActive;
     return true;
   });
-  console.log(filteredPolls)
+
 
   if (loading) {
     return <Loading message="Loading admin panel..." />;

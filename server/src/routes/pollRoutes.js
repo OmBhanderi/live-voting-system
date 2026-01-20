@@ -37,6 +37,7 @@ router.get('/:id/results', (req, res, next) => {
 // POST /api/polls - Create new poll
 router.post('/', (req, res, next) => {
   try {
+
     const poll = pollService.createPoll(req.body);
     res.status(201).json({ success: true, data: poll });
   } catch (error) {

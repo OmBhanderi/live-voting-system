@@ -18,6 +18,7 @@ class Poll {
 
   incrementVote(optionId) {
     const option = this.options.find(opt => opt.id === optionId);
+
     if (option) {
       option.votes += 1;
       return true;

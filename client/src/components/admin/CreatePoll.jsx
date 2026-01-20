@@ -56,6 +56,8 @@ const CreatePoll = ({ onSuccess, onCancel }) => {
         allowMultipleVotes: formData.allowMultipleVotes,
       });
 
+      
+
       // Reset form
       setFormData({
         title: '',

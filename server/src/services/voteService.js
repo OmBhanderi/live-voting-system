@@ -1,5 +1,6 @@
 const Vote = require('../models/Vote');
 const storage = require('../utils/storage');
+
 const { generateVoterId } = require('../utils/helpers');
 
 class VoteService {
@@ -35,7 +36,6 @@ class VoteService {
 
     // Update poll option count
     poll.incrementVote(optionId);
-    storage.updatePoll(pollId, poll);
 
     return {
       vote,

@@ -7,37 +7,36 @@ class Storage {
   }
 
   createPoll(poll) {
-    
     this.polls.set(poll.id, poll);
     this.votes.set(poll.id, []);
     this.voterHistory.set(poll.id, new Set());
-    
+
     return poll;
   }
 
   getPoll(pollId) {
     const poll = this.polls.get(pollId);
     if (!poll) {
-      return {}
-    } 
+      return {};
+    }
 
-    return poll
+    return poll;
   }
 
   getAllPolls() {
-    const polls =  Array.from(this?.polls?.values());
-    if (polls.length === 0 ) {
-      return []
+    const polls = Array.from(this?.polls?.values());
+    if (polls.length === 0) {
+      return [];
     }
-    return polls
+    return polls;
   }
 
   updatePoll(pollId, updates) {
     const poll = this.polls.get(pollId);
     if (!poll) return null;
-    const updatedPoll = { ...poll, ...updates };
-    this.polls.set(pollId,updatedPoll);
-    return updatedPoll;
+
+    Object.assign(poll, updates); // ✅ keeps prototype
+    return poll;
   }
 
   deletePoll(pollId) {
@@ -86,12 +85,12 @@ class Storage {
 
   getPollStates(pollId) {
     const poll = this.polls.get(pollId);
-    let votes = []
+    let votes = [];
     const res = this.votes.get(pollId);
     if (res?.length === 0) {
-      votes = []
+      votes = [];
     } else {
-      votes = res
+      votes = res;
     }
 
     return {
@@ -106,6 +105,5 @@ class Storage {
   }
 }
 
-
 const storage = new Storage();
-module.exports = storage;   
+module.exports = storage;
